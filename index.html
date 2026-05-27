@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>小红书 · 城市微冒险生成器</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- STATUS BAR -->
+<div class="sb">
+  <div class="sb-t">10:49</div>
+  <div class="sb-r">📶 5G 🔋 38%</div>
+</div>
+
+<!-- TOP NAV -->
+<div class="tnav">
+  <div class="tn-back">‹</div>
+  <div class="tn-av">AI</div>
+  <div class="tn-name">AI产品实验室</div>
+  <button class="tn-follow" id="tnFollow" onclick="toggleFollow()">关注</button>
+  <div class="tn-share" onclick="showToast('已生成分享卡片 ↗')">↗</div>
+</div>
+
+<!-- CAROUSEL -->
+<div class="car">
+  <div class="slides-c" id="slides">
+
+    <!-- S1: Cover -->
+    <div class="slide-c sc1">
+      <div class="grid-bg"></div>
+      <div class="scanline"></div>
+      <div class="sc-tag">VIBE CODING × 动态笔记</div>
+      <div class="sc-title">城市微<span>冒险</span>生成器</div>
+      <div class="sc-sub">输入一句状态<br>生成你的 2 小时城市探索 H5</div>
+      <div class="map-nodes">
+        <div class="map-line"></div>
+        <div class="flow-dot"></div>
+        <div class="map-node"><div class="map-node-label">出发</div></div>
+        <div class="map-node"><div class="map-node-label">看风</div></div>
+        <div class="map-node"><div class="map-node-label">咖啡</div></div>
+        <div class="map-node"><div class="map-node-label">天空</div></div>
+      </div>
+      <div class="sc-pills">
+        <span class="sc-pill">🗺 路线生成</span>
+        <span class="sc-pill">📍 任务卡</span>
+        <span class="sc-pill">🌆 H5 预览</span>
+      </div>
+    </div>
+
+    <!-- S2: Input -->
+    <div class="slide-c sc2">
+      <div class="grid-bg"></div>
+      <div class="scanline"></div>
+      <div class="sc-title">输入你的状态</div>
+      <div class="sc-sub">告诉它：你在哪、有多少时间<br>和今天的心情</div>
+      <div class="input-mock">
+        <div class="input-mock-label">你的状态</div>
+        <div class="input-mock-text">今天有点累，想逃离工位。<br>人在新加坡，只有 2 小时，预算 30 SGD。<span class="cursor-blink"></span></div>
+        <div class="tag-chips">
+          <span class="tc">📍 新加坡</span>
+          <span class="tc">⏱ 2小时</span>
+          <span class="tc">💰 30SGD</span>
+          <span class="tc">📷 拍照</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- S3: Task cards -->
+    <div class="slide-c sc3">
+      <div class="grid-bg"></div>
+      <div class="scanline"></div>
+      <div class="sc-title">生成今日任务卡</div>
+      <div class="sc-sub">三张任务，帮你完成<br>一次轻量城市冒险</div>
+      <div class="task-cards">
+        <div class="task-card"><div class="tc-num">1</div><div class="tc-txt">拍一张不是为了发朋友圈的照片</div></div>
+        <div class="task-card"><div class="tc-num">2</div><div class="tc-txt">点一杯不需要纠结的饮料</div></div>
+        <div class="task-card"><div class="tc-num">3</div><div class="tc-txt">给今天的自己写一句结尾</div></div>
+      </div>
+    </div>
+
+    <!-- S4: Phone preview -->
+    <div class="slide-c sc4">
+      <div class="grid-bg"></div>
+      <div class="sc-title">生成 H5 路线页</div>
+      <div class="sc-sub">精致路线 H5，可直接<br>保存海报和分享</div>
+      <div class="phone-sm">
+        <div class="psm-notch"></div>
+        <div class="psm-title">今日城市微冒险</div>
+        <div class="psm-route">
+          <div class="psm-line"></div>
+          <div class="psm-dot" style="left:0"><div class="psm-dot-l">出发</div></div>
+          <div class="psm-dot" style="left:29%"><div class="psm-dot-l">看风</div></div>
+          <div class="psm-dot" style="left:58%"><div class="psm-dot-l">咖啡</div></div>
+          <div class="psm-dot" style="right:0"><div class="psm-dot-l">天空</div></div>
+          <div class="ph-rflow"></div>
+        </div>
+        <div class="psm-kw">低电量逃离中</div>
+        <div class="psm-energy">
+          <div class="psm-ebar"><div class="psm-efill"></div></div>
+          <div class="psm-epct">能量 62% · 恢复中</div>
+        </div>
+        <div class="psm-tags2">
+          <span class="psm-tag2">有风</span><span class="psm-tag2">安静</span><span class="psm-tag2">可拍照</span>
+        </div>
+        <div class="psm-btn">生成路线海报 📍</div>
+      </div>
+    </div>
+
+    <!-- S5: Share -->
+    <div class="slide-c sc5">
+      <div class="grid-bg"></div>
+      <div class="scanline"></div>
+      <div class="sc-title">可分享，也可复刻</div>
+      <div class="sc-sub">用户生成路线 H5<br>创作者沉淀可复用模板</div>
+      <div class="share-preview">
+        <div class="sp-title">📝 今日分享文案</div>
+        <div class="sp-text">「今天不赶路，只是把自己慢慢捡回来。」</div>
+        <div class="sp-tags">
+          <span class="sp-tag">#城市微冒险</span>
+          <span class="sp-tag">#低电量恢复</span>
+          <span class="sp-tag">#Citywalk</span>
+        </div>
+      </div>
+      <div class="sc-pills" style="margin-top:14px">
+        <span class="sc-pill" onclick="showToast('✨ 分享链接已生成！')">生成分享海报</span>
+        <span class="sc-pill" onclick="showToast('📋 复刻模板已复制！')">复刻模板</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="c-idx" id="cidx">1 / 5</div>
+  <button class="c-arr l dis" id="aL" onclick="go(-1)">‹</button>
+  <button class="c-arr r" id="aR" onclick="go(1)">›</button>
+  <div class="c-dots" id="cdots">
+    <div class="c-dot on" onclick="goTo(0)"></div>
+    <div class="c-dot" onclick="goTo(1)"></div>
+    <div class="c-dot" onclick="goTo(2)"></div>
+    <div class="c-dot" onclick="goTo(3)"></div>
+    <div class="c-dot" onclick="goTo(4)"></div>
+  </div>
+</div>
+
+<!-- NOTE CONTENT -->
+<div class="content">
+  <div class="note-title">我把一句"今天想逃离工位"做成了一个<em>城市微冒险 H5</em> 🗺</div>
+  <div class="note-body">
+    <p>最近发现很多 AI Coding 作品在小红书里只能用截图、录屏或外链展示。</p>
+    <p>但我觉得，AI 时代的作品不应该只是被看见，也应该可以被直接体验。</p>
+    <p>所以我做了一个「城市微冒险生成器」动态卡片：输入你的状态、城市、时间和预算，它会生成一个 2 小时城市探索 H5，包括路线、任务、地点和分享海报。</p>
+    <p>这就是我想象中的小红书动态笔记：创作者可以把 H5 Demo 直接插入笔记，用户不用跳转外链，就能在笔记里直接体验作品。👇 直接试</p>
+  </div>
+  <div class="note-tags">
+    <span class="ntag">#VibeCoding</span>
+    <span class="ntag">#动态笔记</span>
+    <span class="ntag">#城市微冒险</span>
+    <span class="ntag">#小红书产品设计</span>
+    <span class="ntag">#AI创作</span>
+    <span class="ntag">#可交互笔记</span>
+  </div>
+</div>
+
+<!-- DEMO CARD -->
+<div style="padding:0 16px 0;background:var(--white)">
+<div class="dcard">
+  <div class="dcard-toprow">
+    <span class="dcard-label">小红书动态卡片</span>
+    <span class="dcard-live">LIVE 可运行</span>
+  </div>
+  <div class="dcard-title">城市微冒险生成器</div>
+  <div class="dcard-sub">输入一句状态，生成你的 2 小时城市探索 H5</div>
+  <div class="dcard-hint">这不是截图，用户可以在笔记内直接输入并生成结果。</div>
+
+  <div class="dform">
+    <textarea class="mood-ta" id="moodInput" rows="3">今天有点累，想逃离工位。人在新加坡，只有 2 小时，预算 30 新币，想要安静、有风、适合拍照的地方。</textarea>
+    <div class="form-chips">
+      <button class="fchip on" onclick="toggleChip(this)">📍 新加坡</button>
+      <button class="fchip on" onclick="toggleChip(this)">⏱ 2 小时</button>
+      <button class="fchip on" onclick="toggleChip(this)">💰 30 SGD</button>
+      <button class="fchip" onclick="toggleChip(this)">☕ 咖啡</button>
+      <button class="fchip" onclick="toggleChip(this)">🌿 安静</button>
+      <button class="fchip on" onclick="toggleChip(this)">📷 拍照</button>
+      <button class="fchip" onclick="toggleChip(this)">🚶 Citywalk</button>
+    </div>
+    <button class="gen-btn" id="genBtn" onclick="generate()">🗺 生成我的城市微冒险</button>
+  </div>
+
+  <!-- Loading -->
+  <div class="lbox" id="lbox">
+    <div class="l-header">
+      <div class="l-dots"><span class="l-dot"></span><span class="l-dot"></span><span class="l-dot"></span></div>
+      <span>AI 正在把你的状态变成一条城市路线...</span>
+    </div>
+    <div class="l-steps" id="lsteps">
+      <div class="l-step" id="ls1"><div class="l-icon">○</div><span>正在理解你的状态</span></div>
+      <div class="l-step" id="ls2"><div class="l-icon">○</div><span>正在匹配城市地点</span></div>
+      <div class="l-step" id="ls3"><div class="l-icon">○</div><span>正在生成 2 小时路线</span></div>
+      <div class="l-step" id="ls4"><div class="l-icon">○</div><span>正在设计 H5 冒险卡片</span></div>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="results" id="results">
+    <div class="res-grid">
+      <!-- Decode left -->
+      <div class="decode-panel">
+        <div class="dp-title">AI 状态解读</div>
+        <div class="dp-row">
+          <div class="dp-label">状态关键词</div>
+          <div class="dp-val hl" id="dpKeyword">低电量逃离中</div>
+        </div>
+        <div class="dp-row">
+          <div class="dp-label">情绪能量</div>
+          <div class="dp-val" id="dpEnergy">62%</div>
+          <div class="ebar"><div class="efill" id="dpEfill" data-w="62%"></div></div>
+        </div>
+        <div class="dp-row">
+          <div class="dp-label">今日需求</div>
+          <div class="dp-tags" id="dpNeeds">
+            <span class="dp-tag">放空</span>
+            <span class="dp-tag">轻社交</span>
+            <span class="dp-tag">低成本</span>
+          </div>
+        </div>
+        <div class="dp-row">
+          <div class="dp-label">推荐氛围</div>
+          <div class="dp-tags" id="dpVibes">
+            <span class="dp-tag">有风</span>
+            <span class="dp-tag">安静</span>
+            <span class="dp-tag">可拍照</span>
+          </div>
+        </div>
+      </div>
+      <!-- Phone right -->
+      <div class="phone-wrap">
+        <div class="phone-wrap-title">H5 路线预览</div>
+        <div class="phone">
+          <div class="ph-notch"></div>
+          <div class="ph-grid"></div>
+          <div class="ph-scanline"></div>
+          <!-- Stars -->
+          <div class="ph-star" style="width:2px;height:2px;top:18px;left:15px;animation-delay:.3s"></div>
+          <div class="ph-star" style="width:1.5px;height:1.5px;top:24px;right:18px;animation-delay:.8s"></div>
+          <div class="ph-star" style="width:1.5px;height:1.5px;top:100px;left:12px;animation-delay:1.2s"></div>
+          <div class="ph-header">
+            <div class="ph-header-sub">今日城市微冒险</div>
+            <div class="ph-header-title">低电量恢复路线</div>
+          </div>
+          <div class="ph-route">
+            <div class="ph-rline"></div>
+            <div class="ph-rdot" style="left:0"><div class="ph-rdot-lbl">出发</div></div>
+            <div class="ph-rdot" style="left:29%"><div class="ph-rdot-lbl">看风</div></div>
+            <div class="ph-rdot" style="left:60%"><div class="ph-rdot-lbl">咖啡</div></div>
+            <div class="ph-rdot" style="right:0"><div class="ph-rdot-lbl">天空</div></div>
+            <div class="ph-rflow"></div>
+          </div>
+          <div class="ph-status">
+            <div class="ph-status-kw">低电量逃离中 ✦</div>
+            <div class="ph-status-bar"><div class="ph-status-fill"></div></div>
+            <div class="ph-status-row"><span>能量 62%</span><span>恢复指数 +28</span></div>
+          </div>
+          <div class="ph-tasks">
+            <div class="ph-task"><div class="ph-task-dot"></div>看一会儿风</div>
+            <div class="ph-task"><div class="ph-task-dot"></div>喝一杯热的</div>
+            <div class="ph-task"><div class="ph-task-dot"></div>拍一张天空</div>
+          </div>
+          <div class="ph-btn">生成路线海报 📍</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Route panel -->
+    <div class="route-panel">
+      <div class="rp-title">城市微冒险路线</div>
+      <div class="rp-name" id="rpName">「2 小时低电量恢复路线」</div>
+      <div class="route-nodes" id="routeNodes">
+        <div class="rn"><div class="rn-dot"><div class="rn-dot-in"></div></div><div class="rn-content"><div class="rn-time">17:00</div><div class="rn-text">从工位出发，手机静音</div></div></div>
+        <div class="rn"><div class="rn-dot"><div class="rn-dot-in"></div></div><div class="rn-content"><div class="rn-time">17:20</div><div class="rn-text">滨海湾步行看风，发呆 20 分钟</div></div></div>
+        <div class="rn"><div class="rn-dot"><div class="rn-dot-in"></div></div><div class="rn-content"><div class="rn-time">18:00</div><div class="rn-text">找一家安静咖啡店坐下，不打开电脑</div></div></div>
+        <div class="rn"><div class="rn-dot"><div class="rn-dot-in"></div></div><div class="rn-content"><div class="rn-time">18:40</div><div class="rn-text">拍一张今日天空</div></div></div>
+        <div class="rn"><div class="rn-dot"><div class="rn-dot-in"></div></div><div class="rn-content"><div class="rn-time">19:00</div><div class="rn-text">写下今天最想保留的一件小事</div></div></div>
+      </div>
+    </div>
+
+    <!-- Tasks -->
+    <div class="tasks-panel">
+      <div class="tp-title">今日任务卡</div>
+      <div class="task-row"><div class="tr-num">1</div><div class="tr-txt" id="task1">拍一张不是为了发朋友圈的照片</div></div>
+      <div class="task-row"><div class="tr-num">2</div><div class="tr-txt" id="task2">点一杯不需要纠结的饮料</div></div>
+      <div class="task-row"><div class="tr-num">3</div><div class="tr-txt" id="task3">给今天的自己写一句结尾</div></div>
+    </div>
+
+    <!-- Share line -->
+    <div class="share-line-panel">
+      <div class="slp-label">📝 推荐分享文案</div>
+      <div class="slp-text" id="slpText">「今天不赶路，只是把自己慢慢捡回来。」</div>
+    </div>
+
+    <!-- Capability tags -->
+    <div class="cap-section">
+      <div class="cap-row">
+        <span class="cap-tag">H5 Demo</span>
+        <span class="cap-tag">小程序原型</span>
+        <span class="cap-tag">AI 工具体验卡</span>
+        <span class="cap-tag">Prompt 输入框</span>
+        <span class="cap-tag">表单交互</span>
+        <span class="cap-tag">数据结果展示</span>
+        <span class="cap-tag">可点击原型</span>
+        <span class="cap-tag">简易网页组件</span>
+      </div>
+      <div class="cap-desc">动态卡片让创作者可以把 Vibe Coding 作品直接嵌入笔记，用户不用跳转外链，就能在小红书内体验、生成、分享和复刻。</div>
+    </div>
+
+    <!-- Mini card generator -->
+    <div class="mini-gen-wrap">
+      <button class="mini-gen-btn" onclick="toggleMiniCard()">
+        <span>✦</span> 生成可插入笔记的 Demo
+      </button>
+      <div class="mini-card" id="miniCard">
+        <div class="mc-header">
+          <div class="mc-name">周末路线盲盒生成器</div>
+          <div class="mc-badge">可插入笔记</div>
+        </div>
+        <div class="mc-row"><div class="mc-label">目标用户</div><div class="mc-val">想找周末灵感但不想做攻略的小红书用户</div></div>
+        <div class="mc-row"><div class="mc-label">输入</div><div class="mc-val">城市 + 时间 + 预算 + 心情</div></div>
+        <div class="mc-row"><div class="mc-label">输出</div><div class="mc-val">路线卡 + 任务卡 + 分享海报</div></div>
+        <div class="mc-row"><div class="mc-label">挂载 Demo</div><div class="mc-val">H5 路线生成器 / 分享海报生成器</div></div>
+        <div class="mc-titles">
+          <div class="mc-titles-label">推荐笔记标题</div>
+          <div class="mc-title-item">不想做攻略的人，终于有自己的周末路线盲盒了</div>
+          <div class="mc-title-item">我用 AI 给低电量打工人生成了一条 2 小时恢复路线</div>
+          <div class="mc-title-item">把城市散步做成一个可运行的小红书笔记</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- TABS -->
+<div class="tabs-wrap" style="margin-top:6px">
+  <div class="tab-nav">
+    <button class="tab-btn on" onclick="switchTab(0,this)">创作过程</button>
+    <button class="tab-btn" onclick="switchTab(1,this)">复刻 Prompt</button>
+    <button class="tab-btn" onclick="switchTab(2,this)">评论共创</button>
+  </div>
+
+  <div class="tab-pane on" id="t0">
+    <div class="tl">
+      <div class="tli"><div class="tl-dot done"></div><div class="tl-day">Step 1</div><div class="tl-txt">发现小红书上 Citywalk 攻略太长，用户只是想快速获得一个短路线</div></div>
+      <div class="tli"><div class="tl-dot done"></div><div class="tl-day">Step 2</div><div class="tl-txt">用 Prompt 把"状态 + 时间 + 预算 + 城市"结构化，输出 JSON 路线数据</div></div>
+      <div class="tli"><div class="tl-dot done"></div><div class="tl-day">Step 3</div><div class="tl-txt">用 Vibe Coding（Cursor + Claude）生成 H5 路线卡片，约 3 小时</div></div>
+      <div class="tli"><div class="tl-dot done"></div><div class="tl-day">Step 4</div><div class="tl-txt">把路线、任务、地点和海报模块嵌入小红书动态笔记</div></div>
+      <div class="tli"><div class="tl-dot"></div><div class="tl-day">Step 5</div><div class="tl-txt">根据评论反馈迭代下一版：多城市 / 情侣路线 / 雨天模式</div></div>
+    </div>
+  </div>
+
+  <div class="tab-pane" id="t1">
+    <div class="prompt-box">
+      你是一名具有<span class="pk">审美能力</span>的 Vibe Coding 设计师和前端工程师。请根据用户输入的<span class="pk">城市、时间、预算</span>和当前状态，生成一个移动端<span class="pk"> H5 城市微冒险页面</span>。页面需要包含路线名称、情绪关键词、路线节点、任务卡、推荐地点、分享按钮和适合<span class="pk">小红书传播</span>的视觉风格。请输出完整 HTML、CSS 和 JavaScript 代码。
+    </div>
+    <button class="copy-btn" onclick="showToast('✨ Prompt 已复制，可以复刻你的版本。')">📋 复制 Prompt</button>
+  </div>
+
+  <div class="tab-pane" id="t2">
+
+    <!-- ══ 评论区淘金术 小游戏 ══ -->
+    <div class="game-wrap" id="gameWrap">
+
+      <!-- IDLE STATE -->
+      <div class="game-idle" id="gameIdle">
+        <div class="game-idle-icon">🏅</div>
+        <div class="game-idle-title">评论区淘金术</div>
+        <div class="game-idle-desc">评论里藏着创作者最需要的宝藏需求。<br>快速判断每条评论属于哪类需求，<br>帮作者挖掘最有价值的用户声音！</div>
+        <div class="game-cats-preview">
+          <span class="gcp">🚀 功能需求</span>
+          <span class="gcp">❤️ 情感共鸣</span>
+          <span class="gcp">🌍 场景扩展</span>
+          <span class="gcp">✨ 体验优化</span>
+        </div>
+        <button class="game-start-btn" onclick="startGame()">开始游戏 ▶</button>
+        <div class="game-idle-hint">⏱ 限时 30 秒 · 共 6 条评论</div>
+      </div>
+
+      <!-- PLAYING STATE -->
+      <div class="game-playing" id="gamePlaying" style="display:none">
+        <div class="game-hud">
+          <div class="hud-score">
+            <div class="hud-label">得分</div>
+            <div class="hud-val" id="scoreEl">0</div>
+          </div>
+          <div class="hud-timer-wrap">
+            <div class="hud-timer-ring">
+              <svg viewBox="0 0 40 40" class="timer-svg">
+                <circle cx="20" cy="20" r="17" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="3"/>
+                <circle cx="20" cy="20" r="17" fill="none" stroke="var(--neon)" stroke-width="3"
+                  stroke-dasharray="107" stroke-dashoffset="0" stroke-linecap="round"
+                  id="timerRing" transform="rotate(-90 20 20)"/>
+              </svg>
+              <div class="hud-timer-num" id="timerEl">30</div>
+            </div>
+          </div>
+          <div class="hud-progress">
+            <div class="hud-label">进度</div>
+            <div class="hud-val" id="progressEl">1/6</div>
+          </div>
+        </div>
+
+        <!-- Comment card -->
+        <div class="comment-stage" id="commentStage">
+          <div class="comment-card" id="commentCard">
+            <div class="cc-avatar" id="ccAvatar"></div>
+            <div class="cc-body">
+              <div class="cc-name" id="ccName"></div>
+              <div class="cc-text" id="ccText"></div>
+              <div class="cc-likes" id="ccLikes"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Category buttons -->
+        <div class="cat-grid" id="catGrid">
+          <button class="cat-btn" data-cat="功能需求" onclick="classify(this)">🚀<span>功能需求</span></button>
+          <button class="cat-btn" data-cat="情感共鸣" onclick="classify(this)">❤️<span>情感共鸣</span></button>
+          <button class="cat-btn" data-cat="场景扩展" onclick="classify(this)">🌍<span>场景扩展</span></button>
+          <button class="cat-btn" data-cat="体验优化" onclick="classify(this)">✨<span>体验优化</span></button>
+        </div>
+
+        <div class="game-feedback" id="gameFeedback"></div>
+      </div>
+
+      <!-- RESULT STATE -->
+      <div class="game-result" id="gameResult" style="display:none">
+        <div class="gr-header">
+          <div class="gr-trophy" id="grTrophy">🥇</div>
+          <div class="gr-title" id="grTitle">分析完成！</div>
+          <div class="gr-score-wrap">
+            <span class="gr-score-num" id="grScore">0</span>
+            <span class="gr-score-unit">分</span>
+          </div>
+          <div class="gr-accuracy" id="grAccuracy"></div>
+        </div>
+
+        <div class="gr-breakdown" id="grBreakdown"></div>
+
+        <div class="gr-ai-box">
+          <div class="gr-ai-label">🤖 AI 创作建议</div>
+          <div class="gr-ai-text" id="grAiText"></div>
+        </div>
+
+        <div class="gr-tags" id="grTags"></div>
+
+        <button class="game-start-btn" style="margin-top:4px" onclick="resetGame()">🔄 再玩一次</button>
+      </div>
+    </div>
+
+    <!-- static comments below game -->
+    <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border)">
+      <div class="ctitle">最新评论</div>
+      <div class="citem">
+        <div class="cav" style="background:linear-gradient(135deg,#f97316,#fb923c)">北</div>
+        <div>
+          <div class="cname">打工人小北</div>
+          <div class="ctxt">能不能支持北京/上海版本？新加坡太远了哈哈</div>
+          <div class="clike">👍 28 · 回复</div>
+        </div>
+      </div>
+      <div class="citem">
+        <div class="cav" style="background:linear-gradient(135deg,#ec4899,#f9a8d4)">情</div>
+        <div>
+          <div class="cname">恋爱脑研究员</div>
+          <div class="ctxt">可以加一个情侣双人路线吗？太适合周末约会了！</div>
+          <div class="clike">👍 21 · 回复</div>
+        </div>
+      </div>
+      <div class="citem">
+        <div class="cav" style="background:linear-gradient(135deg,#06b6d4,#22d3ee)">雨</div>
+        <div>
+          <div class="cname">雨天宅家派</div>
+          <div class="ctxt">想要雨天路线模式！下雨天也可以微冒险</div>
+          <div class="clike">👍 17 · 回复</div>
+        </div>
+      </div>
+      <div class="citem">
+        <div class="cav" style="background:linear-gradient(135deg,#8b5cf6,#a78bfa)">海</div>
+        <div>
+          <div class="cname">海报控</div>
+          <div class="ctxt">能不能生成可分享的路线海报？发朋友圈超好看！</div>
+          <div class="clike">👍 14 · 回复</div>
+        </div>
+      </div>
+    </div>
+    <div class="ctitle" style="margin-top:4px">📋 需求池</div>
+    <div class="pool-row"><div class="pool-info"><div class="pool-name">多城市版本</div><div class="pool-cnt">👥 18 人想要 · <span style="color:var(--red)">高热度</span></div></div><button class="adopt-btn" onclick="adopt(this)">采纳</button></div>
+    <div class="pool-row"><div class="pool-info"><div class="pool-name">情侣双人路线</div><div class="pool-cnt">👥 12 人想要</div></div><button class="adopt-btn" onclick="adopt(this)">采纳</button></div>
+    <div class="pool-row"><div class="pool-info"><div class="pool-name">雨天路线模式</div><div class="pool-cnt">👥 9 人想要</div></div><button class="adopt-btn" onclick="adopt(this)">采纳</button></div>
+    <div class="pool-row"><div class="pool-info"><div class="pool-name">分享路线海报</div><div class="pool-cnt">👥 7 人想要</div></div><button class="adopt-btn" onclick="adopt(this)">采纳</button></div>
+  </div>
+</div>
+
+<div class="bspacer"></div>
+
+<!-- BOTTOM BAR -->
+<div class="bbar">
+  <input class="bb-in" placeholder="说点什么..." />
+  <div class="bbactions">
+    <div class="bba" onclick="toggleLike()">
+      <div class="bba-ico" id="licoEl">🤍</div>
+      <div class="bba-num" id="lnum">696</div>
+    </div>
+    <div class="bba" onclick="toggleSave()">
+      <div class="bba-ico" id="sicoEl">⭐</div>
+      <div class="bba-num" id="snum">1048</div>
+    </div>
+    <div class="bba">
+      <div class="bba-ico">💬</div>
+      <div class="bba-num">16</div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="demo.js"></script>
+<script src="game.js"></script>
+</body>
+</html>
